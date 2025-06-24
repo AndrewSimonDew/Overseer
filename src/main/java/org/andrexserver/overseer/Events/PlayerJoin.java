@@ -16,12 +16,20 @@ public class PlayerJoin {
         if(player.hasPermission("overseer.join-notified")) {
             Main.notifiedAdmins.add(player);
         }
-        for(Player p : Main.notifiedAdmins) {
-            if(previousServer == null) {
-                Main.sendMessage(p,"§c" + p.getUsername() + "§a has just joined the proxy, now on: §6" + server.getServerInfo().getName());
-            } else {
-                Main.sendMessage(p,"§c" + p.getUsername() + "§a has switched to §6" + server.getServerInfo().getName());
+        if(previousServer == null) {
+            Main.instance.logger.info(player.getUsername() + "§a has just joined the proxy, now on: §6" + server.getServerInfo().getName());
+        } else {
+            Main.instance.logger.info("§c" + player.getUsername() + "§a has switched to §6" + server.getServerInfo().getName());
+        }
+        if(!Main.notifiedAdmins.isEmpty()) {
+            for(Player p : Main.notifiedAdmins) {
+                if(previousServer == null) {
+                    Main.sendMessage(p,"§c" + player.getUsername() + "§a has just joined the proxy, now on: §6" + server.getServerInfo().getName());
+                } else {
+                    Main.sendMessage(p,"§c" + player.getUsername() + "§a has switched to §6" + server.getServerInfo().getName());
+                }
             }
         }
+
     }
 }

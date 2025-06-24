@@ -12,34 +12,39 @@ import net.kyori.adventure.text.Component;
 import org.andrexserver.overseer.Events.PlayerJoin;
 import org.slf4j.Logger;
 
+import java.lang.reflect.Proxy;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 @Plugin(
     id = "overseer",
     name = "Overseer",
-    version = BuildConstants.VERSION
-    ,description = "Overseer is a velocity plugin that allows easy management of players"
-    ,authors = {"Andrex"}
+    version = BuildConstants.VERSION,
+    description = "Overseer is a velocity plugin that allows easy management of players",
+    authors = {"Andrex"}
 )
 public class Main {
 
-    @Inject private Logger logger;
+    @Inject
+    public Logger logger;
     public static Main instance;
-    public static List<Player> notifiedAdmins;
+    public static Set<Player> notifiedAdmins = new CopyOnWriteArraySet<>();
     public static ConfigManager config;
+    private final ProxyServer proxy;
 
     @Inject
     public Main(ProxyServer proxy, Logger logger, @DataDirectory Path dataDirectory) {
+        this.proxy = proxy;
         instance = this;
         config = new ConfigManager(dataDirectory, "config.yml", "default_config.yml");
 
-        proxy.getEventManager().register(this, new PlayerJoin());
     }
     @Subscribe
     public void onProxyInitialization(ProxyInitializeEvent event) {
         logger.info("Overseer Initialized!");
-
+        proxy.getEventManager().register(this,new PlayerJoin());
 
     }
 

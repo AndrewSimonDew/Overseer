@@ -13,7 +13,7 @@ import java.nio.file.Path;
 public class ConfigManager {
 
     private final Path configFile;
-    private ConfigurationLoader<CommentedConfigurationNode> loader;
+    private ConfigurationLoader<@org.jetbrains.annotations.NotNull CommentedConfigurationNode> loader;
     private CommentedConfigurationNode rootNode;
 
     public ConfigManager(Path dataFolder, String fileName, String defaultResource) {

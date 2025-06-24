@@ -31,6 +31,7 @@ dependencies {
     implementation 'org.spongepowered:configurate-yaml:4.2.0'
 }
 
+
 tasks {
   runVelocity {
     // Configure the Velocity version for our task.
@@ -67,3 +68,17 @@ sourceSets.main.java.srcDir(generateTemplates.map { it.outputs })
 
 project.idea.project.settings.taskTriggers.afterSync generateTemplates
 project.eclipse.synchronizationTasks(generateTemplates)
+
+tasks.register("copyJar", Copy) {
+    dependsOn(tasks.jar)  // Make sure jar is built first
+
+    // Grab the archive file properly from the jar task:
+    from(tasks.jar.archiveFile)  // no .get() needed here, just .archiveFile property
+
+    into("C:\\Users\\simon\\Desktop\\dev\\proxy\\plugins")  // your target folder
+}
+
+// Make sure copyJar runs after build
+tasks.build {
+    finalizedBy(tasks.copyJar)
+}

@@ -1,0 +1,7 @@
+{
+  "id": "overseer",
+  "name": "Overseer",
+  "version": "1.0.0",
+  "main": "org.andrexserver.overseer.Main",
+  "author": "Andrex"
+}
