@@ -11,7 +11,7 @@ public class ProxyCount implements SimpleCommand {
     public void execute(Invocation invocation) {
         CommandSource source = invocation.source();
         String[] args = invocation.arguments();
-        if (!source.hasPermission("oversser.proxycount")) {
+        if (!source.hasPermission("overseer.proxycount")) {
             Main.sendMessage(source,"§cSorry, You don't have permission to use this command!");
             return;
         }

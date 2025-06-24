@@ -18,7 +18,7 @@ public class PlayerInfo implements SimpleCommand {
     public void execute(Invocation invocation) {
         CommandSource source = invocation.source();
         String[] args = invocation.arguments();
-        if (!source.hasPermission("oversser.playerinfo")) {
+        if (!source.hasPermission("overseer.playerinfo")) {
             Main.sendMessage(source,"§cSorry, You don't have permission to use this command!");
             return;
         }
