@@ -1,3 +1,7 @@
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+---
+
 # Overseer ⚡️
 
 **Overseer** is a sleek and powerful player management plugin for Velocity proxy servers. Keep track of your players, manage server populations, and move players around your network effortlessly — all with simple commands and robust logging.
@@ -51,7 +55,7 @@
 
 ## Installation 🚀
 
-1. Download the latest release `.jar` from the repository.  
+1. Download the latest release `.jar` file from the [Releases](https://github.com/AndrewSimonDew/Overseer/releases) page
 2. Place the `.jar` file into your Velocity proxy's `plugins` folder.  
 3. Restart or reload your Velocity proxy server.  
 4. Configure permissions as needed with your permissions plugin.
@@ -64,9 +68,9 @@ Created and maintained by **Andrex**
 
 ---
 
-## License 📜
+## License 📄
 
-This project is licensed under the **MIT License**
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/AndrewSimonDew/Overseer?tab=MIT-1-ov-file) file for details.
 
 ---
 
