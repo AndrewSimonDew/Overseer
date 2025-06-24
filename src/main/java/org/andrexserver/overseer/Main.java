@@ -6,16 +6,19 @@ import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
+import com.velocitypowered.api.proxy.ConnectionRequestBuilder;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
+import com.velocitypowered.api.proxy.server.RegisteredServer;
 import net.kyori.adventure.text.Component;
+import org.andrexserver.overseer.Commands.Send;
+import org.andrexserver.overseer.Commands.SendAll;
 import org.andrexserver.overseer.Events.PlayerJoin;
 import org.slf4j.Logger;
 
-import java.lang.reflect.Proxy;
 import java.nio.file.Path;
-import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 @Plugin(
@@ -32,7 +35,7 @@ public class Main {
     public static Main instance;
     public static Set<Player> notifiedAdmins = new CopyOnWriteArraySet<>();
     public static ConfigManager config;
-    private final ProxyServer proxy;
+    public final ProxyServer proxy;
 
     @Inject
     public Main(ProxyServer proxy, Logger logger, @DataDirectory Path dataDirectory) {
@@ -45,6 +48,8 @@ public class Main {
     public void onProxyInitialization(ProxyInitializeEvent event) {
         logger.info("Overseer Initialized!");
         proxy.getEventManager().register(this,new PlayerJoin());
+        proxy.getCommandManager().register("sendall", new SendAll());
+        proxy.getCommandManager().register("send", new Send());
 
     }
 
@@ -52,7 +57,12 @@ public class Main {
         if (text == null || text.isEmpty()) {
             throw new IllegalArgumentException("Attempting to send empty string");
         } else {
-            source.sendMessage(Component.text("§a[§6PteroUtil§a]§r " + text));
+            source.sendMessage(Component.text("§a[§6Over§bseer§a]§r " + text));
         }
+    }
+
+    public CompletableFuture<Boolean> sendPlayerToServer(Player player, RegisteredServer server) {
+        return player.createConnectionRequest(server).connect()
+                .thenApply(ConnectionRequestBuilder.Result::isSuccessful);
     }
 }
