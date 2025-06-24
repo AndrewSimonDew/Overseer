@@ -8,8 +8,8 @@ import org.andrexserver.overseer.Main;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 public class SendAll implements SimpleCommand {
     @Override
@@ -51,5 +51,15 @@ public class SendAll implements SimpleCommand {
             Main.sendMessage(source, "§aAll players have been processed for transfer to §6" + server);
             // Optional: add detailed success/fail counts here by analyzing futures
         });
+    }
+    @Override
+    public List<String> suggest(Invocation invocation) {
+        String[] args = invocation.arguments();
+        if (args.length == 1) {
+            return Main.instance.proxy.getAllServers().stream()
+                    .map(server -> server.getServerInfo().getName())
+                    .collect(Collectors.toList());
+        }
+        return new ArrayList<>();
     }
 }

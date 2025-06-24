@@ -6,6 +6,9 @@ import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
 import org.andrexserver.overseer.Main;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 public class Send implements SimpleCommand {
     @Override
@@ -49,4 +52,20 @@ public class Send implements SimpleCommand {
         });
 
     }
+    @Override
+    public List<String> suggest(Invocation invocation) {
+        String[] args = invocation.arguments();
+        if (args.length == 1) {
+
+            return Main.instance.proxy.getAllPlayers().stream()
+                    .map(Player::getUsername)
+                    .collect(Collectors.toList());
+        } else if (args.length == 2) {
+            return Main.instance.proxy.getAllServers().stream()
+                    .map(server -> server.getServerInfo().getName())
+                    .collect(Collectors.toList());
+        }
+        return List.of();
+    }
+
 }

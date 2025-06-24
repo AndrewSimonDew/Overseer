@@ -11,8 +11,8 @@ import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
 import net.kyori.adventure.text.Component;
-import org.andrexserver.overseer.Commands.Send;
-import org.andrexserver.overseer.Commands.SendAll;
+import net.kyori.adventure.text.TextComponent;
+import org.andrexserver.overseer.Commands.*;
 import org.andrexserver.overseer.Events.PlayerJoin;
 import org.slf4j.Logger;
 
@@ -50,15 +50,30 @@ public class Main {
         proxy.getEventManager().register(this,new PlayerJoin());
         proxy.getCommandManager().register("sendall", new SendAll());
         proxy.getCommandManager().register("send", new Send());
+        proxy.getCommandManager().register("playerinfo",new PlayerInfo());
+        proxy.getCommandManager().register("playercount", new PlayerCount());
+        proxy.getCommandManager().register("proxycount",new ProxyCount());
 
     }
 
     public static void sendMessage(CommandSource source, String text) throws IllegalArgumentException {
         if (text == null || text.isEmpty()) {
             throw new IllegalArgumentException("Attempting to send empty string");
-        } else {
-            source.sendMessage(Component.text("§a[§6Over§bseer§a]§r " + text));
         }
+
+        String prefix = "§a[§6Over§bseer§a]§r ";
+
+        String[] lines = text.split("\n");
+        TextComponent.Builder builder = Component.text();
+
+        for (int i = 0; i < lines.length; i++) {
+            builder.append(Component.text(prefix + lines[i]));
+            if (i < lines.length - 1) {
+                builder.append(Component.text("\n"));  // keep the new lines intact
+            }
+        }
+
+        source.sendMessage(builder.build());
     }
 
     public CompletableFuture<Boolean> sendPlayerToServer(Player player, RegisteredServer server) {
